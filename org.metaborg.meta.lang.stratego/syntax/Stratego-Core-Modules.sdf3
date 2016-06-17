@@ -1,0 +1,37 @@
+module Stratego-Core-Modules
+
+imports
+  Stratego-Core-Identifiers	
+  Stratego-Core-Strategies	
+  Stratego-Core-Signatures
+
+sorts
+
+  Module
+
+context-free syntax
+
+  Module.Module = <module <ModName> <Decl*>> 
+  Module.Specification = <specification <Decl*>> 
+
+sorts
+
+  Decl
+
+context-free syntax
+
+  Decl.Imports = <imports <ImportModName*>> 
+  Decl.Strategies = <strategies <Def*>> 
+  Decl.Signature = <signature <Sdecl*>> 
+
+sorts
+
+  ImportModName
+
+context-free syntax
+
+  ImportModName.Import = ModName 
+
+syntax
+
+  ImportModName-CF.ImportWildcard = ModName-CF "/" "-" 

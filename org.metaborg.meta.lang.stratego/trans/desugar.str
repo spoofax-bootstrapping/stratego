@@ -2,7 +2,7 @@ module desugar
 
 imports
   libstratego-lib
-  libstrc
+  signatures/-
   stratego/metaborg
 
 signature constructors

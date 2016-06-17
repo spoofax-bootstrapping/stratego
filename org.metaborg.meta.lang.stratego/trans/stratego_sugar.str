@@ -4,6 +4,7 @@ imports
   libstratego-lib
   libstratego-gpp
   libstratego-aterm
+  signatures/-
   libstrc
   stratego/metaborg
   analysis

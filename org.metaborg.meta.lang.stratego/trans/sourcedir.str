@@ -2,7 +2,7 @@ module sourcedir
 
 imports
   analysis
-  libstrc
+  signatures/-
 
 rules
   

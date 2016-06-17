@@ -4,10 +4,11 @@ pardonedLanguages:
 - "EditorService"
 - "Stratego-Sugar"
 - "SDF"
+exports:
+  language: "Stratego-Sugar"
+  directory: "src-gen"
 name: "Stratego-Sugar"
 language:
-  sdf:
-    externalDef: "${path:root}/syntax/Stratego-Sugar.def"
   stratego:
     args:
     - "-la"
@@ -25,9 +26,10 @@ language:
     - "-la"
     - "strc"
     format: "jar"
-id: "org.metaborg:org.metaborg.meta.lang.stratego:2.1.5"
+id: "org.metaborg:org.metaborg.meta.lang.stratego:2.1.6"
 dependencies:
   compile:
-  - "org.metaborg:org.metaborg.meta.lang.esv:2.1.5"
-  - "org.metaborg:org.metaborg.meta.lang.stratego:2.1.5"
-  source: "org.metaborg:org.metaborg.meta.lib.analysis:2.1.5"
+  - "org.metaborg:org.metaborg.meta.lang.esv:2.1.6"
+  - "org.metaborg:org.metaborg.meta.lang.stratego:2.1.6"
+  - "org.metaborg:org.metaborg.meta.lang.template:2.1.6"
+  source: "org.metaborg:org.metaborg.meta.lib.analysis:2.1.6"

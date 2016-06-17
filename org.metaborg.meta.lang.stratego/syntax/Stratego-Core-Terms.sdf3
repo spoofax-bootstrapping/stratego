@@ -1,0 +1,39 @@
+module Stratego-Core-Terms
+
+imports
+  Stratego-Core-Identifiers	
+  Stratego-Core-Constants
+
+sorts
+
+  ID Var Wld
+
+context-free syntax
+
+  Var.Var = Id 
+  ID = Id 
+
+sorts
+
+  Term PreTerm
+
+context-free syntax
+
+  PreTerm = Var 
+  Term = Var {prefer}
+  Wld.Wld = <_> 
+  PreTerm = Wld 
+  Term = Wld {prefer}
+  PreTerm.Int = Int 
+  PreTerm.Real = Real 
+  PreTerm.Str = String 
+  PreTerm.Op = <<Id> ( <{Term ","}*> )> 
+  PreTerm.OpQ = <<String> ( <{Term ","}*> )> 
+  PreTerm.Explode = <<Term> # ( <Term> )> 
+  Term.Anno = <<PreTerm> {^ <PreTerm> }> 
+  Term.As = <<Var> @ <Term>> {prefer}
+  PreTerm.As = <<Var> @ <PreTerm>> 
+
+context-free priorities
+
+  PreTerm.Explode > Term.As

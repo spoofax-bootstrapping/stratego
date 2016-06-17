@@ -1,0 +1,4 @@
+module Stratego-Sugar-Layout
+
+imports
+  Stratego-Core-Layout

@@ -2,6 +2,7 @@ module analysis
 
 imports
   libstratego-lib
+  signatures/-
   libstrc
   desugar
   stratego/metaborg

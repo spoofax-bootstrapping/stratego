@@ -1,0 +1,31 @@
+module Stratego-Sugar-Rules
+
+imports
+  Stratego-Core-Identifiers
+  Stratego-Core-Terms
+  Stratego-Core-Strategies
+  Stratego-Sugar-Strategies
+
+sorts
+
+  RuleDef
+
+context-free syntax
+
+  RuleDef.RDefNoArgs = <<Id> : <Rule>> 
+  Def.AnnoDef = <<Anno+> <RuleDef>> 
+  RuleDef.RDef = <<Id> ( <{Typedid ","}*> ) : <Rule>> 
+  RuleDef.RDefT = <<Id> ( <{Typedid ","}*> | <{Typedid ","}*> ) : <Rule>> 
+  RuleDef.RDefP = <<Id> ( <{Typedid ","}*> | <{Term ","}*> ) : <Rule>> {avoid}
+
+sorts
+
+  Rule RuleCond
+
+context-free syntax
+
+  Rule.RuleNoCond = <<Term> -\> <Term>> 
+  Rule.Rule = <<Term> -\> <Term> where <Strategy>> 
+  Rule.Rule = <<Term> -\> <Term> <RuleCond+>> {avoid}
+  RuleCond.WhereClause = <where <Strategy>> 
+  RuleCond.WithClause = <with <Strategy>> 

@@ -1,0 +1,104 @@
+module Stratego-Sugar-Strategies
+
+imports
+  Stratego-Core-Constants
+  Stratego-Core-Strategies
+  Stratego-Sugar-Terms	
+  Stratego-Sugar-Constants	
+  Stratego-Sugar-Signatures
+  Stratego-Sugar-Rules
+
+context-free syntax
+
+  StrategyDef.SDefNoArgs = <<Id> = <Strategy>> 
+  StrategyDef.SDef = <<Id> ( <{Typedid ","}*> ) = <Strategy>> 
+  StrategyDef.SDefP = <<Id> ( <{Typedid ","}*> | <{Term ","}*> ) = <Strategy>> {avoid}
+
+context-free syntax
+
+  Typedid.DefaultVarDec = ID 
+
+sorts
+
+  Rule
+
+sorts
+
+  StrategyParen StrategyCurly StrategyAngle
+
+context-free syntax
+
+  Strategy.Call = <<SVar> ( <{Strategy ","}*> )> 
+  Strategy.ScopeDefault = <{ <Strategy> }> 
+  Strategy.BA = <<StrategyAngle> <Term>> 
+  StrategyAngle = <\< <Strategy> \>> {bracket}
+  Strategy.LChoice = <<Strategy> \<+ <Strategy>> {right}
+  Strategy.Rec = <rec <Id> ( <Strategy> )> 
+  Strategy.Not = <not ( <Strategy> )> 
+  Strategy.Where = <where ( <Strategy> )> 
+  Strategy.With = <with ( <Strategy> )> {prefer}
+  Strategy.Test = <test ( <Strategy> )> 
+  Strategy.PrimNoArgs = <prim ( <String> )> 
+  Strategy.Prim = <prim ( <String> , <{Term ","}*> )> 
+  Strategy.StrCong = String 
+  Strategy.IntCong = Int 
+  Strategy.RealCong = Real 
+  Strategy.CharCong = Char 
+  Strategy.CongQ = <<String> ( <{Strategy ","}*> )> 
+  Strategy.AnnoCong = <<Strategy> <StrategyCurly>> 
+  StrategyCurly.StrategyCurly = <{ <Strategy> }> 
+  Strategy.EmptyTupleCong = <( )> 
+  Strategy = <( <Strategy> )> {bracket}
+  Strategy.TupleCong = <( <Strategy> , <{Strategy ","}+> )> 
+  Strategy.ListCongNoTail = <[ <{Strategy ","}*> ]> 
+  Strategy.ListCong = <[ <{Strategy ","}*> | <Strategy> ]> 
+  Strategy.ExplodeCong = <<Strategy> # <StrategyParen>> 
+
+sorts
+
+  SwitchCase
+
+context-free syntax
+
+  Strategy.CallNoArgs = SVar 
+  Strategy.LRule = <\\ <Rule> \\> 
+  Strategy.SRule = <( <Rule> )> 
+  Strategy.Choice = <<Strategy> + <Strategy>> {right}
+  Strategy.RChoice = <<Strategy> +\> <Strategy>> {right}
+  Strategy.Proceed = <proceed ( <{Strategy ","}+> )> {prefer}
+  Strategy.CondChoice = <if <Strategy> then <Strategy> else <Strategy> end> 
+  Strategy.IfThen = <if <Strategy> then <Strategy> end> 
+  Strategy.SwitchChoiceNoOtherwise = <switch <Strategy> <SwitchCase*> end> 
+  Strategy.SwitchChoice = <switch <Strategy> <SwitchCase*> otherwise : <Strategy> end> 
+  SwitchCase.SwitchCase = <case <Strategy> : <Strategy>> 
+  Strategy.AM = <<Strategy> =\> <Term>> 
+  Strategy.Assign = <<Term> := <Term>> 
+
+context-free priorities
+  { Strategy StrategyCurly      -> Strategy
+    Strategy "#" StrategyParen          -> Strategy
+  }
+> { "!" Term          -> Strategy
+    "?" Term          -> Strategy
+  }
+> StrategyAngle Term              -> Strategy
+> Strategy "=>" Term          -> Strategy
+> Strategy ";" Strategy       -> Strategy
+> {right: 
+   Strategy "+" Strategy      -> Strategy
+   Strategy "<+" Strategy       -> Strategy
+   Strategy "+>" Strategy       -> Strategy
+   
+   Strategy "<" StrategyMid 
+            "+" Strategy      -> Strategy
+  }
+
+context-free priorities
+  Strategy          -> StrategyMid
+> Strategy "+" Strategy       -> Strategy
+
+context-free priorities
+  { Strategy StrategyCurly      -> Strategy
+    Strategy "#" StrategyParen  -> Strategy
+  }
+  .> Term ":=" Term -> Strategy
